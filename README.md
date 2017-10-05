@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/vorce/rushie.svg?branch=master)](https://travis-ci.org/vorce/rushie)
+
 # Rushie
 
 Rushie is an elixir library to make it easy to interact with the [Rushfiles API](https://rushfiles.com/).
