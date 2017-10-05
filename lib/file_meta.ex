@@ -1,4 +1,8 @@
 defmodule Rushie.FileMeta do
+  @moduledoc """
+  Represents metadata for a file in Rushfiles
+  """
+
   defstruct upload_name: "",
             user: "",
             subshare?: false,
@@ -17,6 +21,9 @@ defmodule Rushie.FileMeta do
             attributes: 0,
             deleted?: false
 
+  @doc """
+  Parse a RfVirtualFile object from Rushfiles
+  """
   def parse_file_meta(file_map) do
     %__MODULE__{
       upload_name: get_in(file_map, ["UploadName"]),

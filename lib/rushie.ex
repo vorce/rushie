@@ -1,6 +1,6 @@
 defmodule Rushie do
   @moduledoc """
-  API
+  API for Rushie
   """
 
   alias Rushie.FileMeta
@@ -18,6 +18,9 @@ defmodule Rushie do
     end
   end
 
+  @doc """
+  Upload a file to a Rushfiles share
+  """
   @spec upload_file(login :: Login.t, share :: ManagedShare.t, file_path :: String.t) :: {:ok, FileMeta.t} | {:error, any}
   def upload_file(%Login{} = login, %ManagedShare{} = share, file_path, target_filename \\ nil) do
     with {:ok, data} <- File.read(file_path),
@@ -27,6 +30,9 @@ defmodule Rushie do
     end
   end
 
+  @doc """
+  List all files in a Rushfiles share
+  """
   @spec list_files(login :: Login.t, share :: ManagedShare.t) :: {:ok, [FileMeta.t]} | {:error, any}
   def list_files(%Login{} = login, %ManagedShare{} = share) do
     url = "https://clientgateway.#{login.domain}/api/shares/#{share.share_id}/children"
@@ -41,10 +47,10 @@ defmodule Rushie do
   end
 
   @doc """
-  upload_name is a guid for the file in Rushfiles.
-  local_file is the full path to write the file locally.
+  Download a specific file from a Rushfile share.
+  `local_file` is the full path to write the file locally.
   """
-  @spec download_file(login :: Login.t, share :: ManagedShare.t, file :: FileMeta.t, local_file :: Strin.t) :: :ok | {:error, any}
+  @spec download_file(login :: Login.t, share :: ManagedShare.t, file :: FileMeta.t, local_file :: String.t) :: :ok | {:error, any}
   def download_file(%Login{} = login, %ManagedShare{} = share, %FileMeta{} = file, local_file) do
     file_cache_url = List.first(login.file_cache_urls)
     headers = ["Authorization": "DomainToken #{login.token}"]
@@ -58,6 +64,8 @@ defmodule Rushie do
   end
 
   @doc """
+  Internal.
+
   event_type: 0 = create
   """
   def file_event(%Login{} = login, event_type, %ManagedShare{} = share, file_data) do

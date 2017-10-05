@@ -1,4 +1,8 @@
 defmodule Rushie.Login do
+  @moduledoc """
+  Functionality to login to a Rushfiles instance
+  """
+
   alias Rushie.ManagedShare
 
   defstruct token: "",
@@ -9,6 +13,10 @@ defmodule Rushie.Login do
 
   @login_url_prefix (Application.get_env(:rushie, :login_url_prefix) || "https://clientgateway.")
 
+  @doc """
+  Login to the specified domain with email, password.
+  It's not recommended to call this function directly, instead use `Rushie.login/3`
+  """
   def login(domain, email, password) do
     url = @login_url_prefix <> "#{domain}/Login2.aspx"
     headers = [
@@ -28,6 +36,10 @@ defmodule Rushie.Login do
     end
   end
 
+  @doc """
+  Login to a Rushfiles gateway.
+  It's not recommended to call this function directly, instead use `Rushie.login/3`
+  """
   def gateway_login(%__MODULE__{} = login) do
     url = @login_url_prefix <> "#{login.domain}/ClientLogin.aspx?userEmail=#{login.email}&token=#{login.token}"
     case HTTPoison.get(url, [], Rushie.httpoison_options()) do
