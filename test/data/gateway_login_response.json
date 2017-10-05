@@ -1,0 +1,139 @@
+{
+  "User": {
+    "UserId": "person@place.com",
+    "Email": "person@place.com",
+    "AltEmail": null,
+    "Alias": null,
+    "Name": "person",
+    "ResellerId": null,
+    "Status": 0,
+    "CreateTime": 0,
+    "CreatedBy": null,
+    "UpdateTime": 0,
+    "UpdatedBy": null,
+    "DeleteTime": 0,
+    "DeletedBy": null,
+    "LastLoginTime": 0,
+    "LastCache": 0,
+    "ProfilePicture": null,
+    "AuthentiactionType": 0,
+    "AdUser": false,
+    "Company": null,
+    "Title": null,
+    "Telephone": null,
+    "PrimaryCompanyId": null,
+    "UserTick": 1,
+    "GlobalStamp": 636423123524226584202,
+    "PrimaryDomain": null,
+    "ResetPasswordKey": null,
+    "ResetPasswordKeyExpiration": "0001-01-01T00:00:00Z"
+  },
+  "ManagedShares": [
+    {
+      "AssociationType": 0,
+      "SharingOrigin": 0,
+      "VshareId": "vshare01",
+      "ShareId": "cb6349efa",
+      "ParentShareId": null,
+      "SubShareIds": [],
+      "VshareName": "vshare01",
+      "ShareName": "backup",
+      "ShareType": 0,
+      "LastApplyedJournalTick": 1,
+      "Status": 1,
+      "ShareChanged": false,
+      "Fileshare": null,
+      "LocalClientJournal": null,
+      "LocalClientJournalBuffer": null,
+      "LastBufferEntry": "0001-01-01T00:00:00",
+      "ConflictInternalId": null,
+      "TransmitId": null,
+      "TransmitTimeout": "0001-01-01T00:00:00",
+      "TransmitCounter": 0,
+      "AliasName": null,
+      "ShareAcl": {
+        "ShareId": "cb6349efa",
+        "AclType": 2,
+        "ShareShareRights": 1,
+        "FileShareRights": 1,
+        "AclToken": "Z",
+        "ByUserId": "asd"
+      },
+      "Online": false,
+      "SharePath": "\\vshare01_cb6349efa\\",
+      "VshareServerUrl": null,
+      "NewLogEntry": false,
+      "LastUpdate": 0,
+      "GateWayUrl": null,
+      "DomainId": "b963bd5f-f8a4-42cf-a7be-88bb06b3f2d2",
+      "LastRecieve": "0001-01-01T00:00:00",
+      "CompanyName": "something.com:person",
+      "CompanyId": "ffffdeadbeef00",
+      "Owner": "person@place.com",
+      "Speed": 0,
+      "InternalName": null,
+      "StorageLimitReached": false,
+      "Associations": []
+    }
+  ],
+  "LoginToken": "TokenOK",
+  "Cookie": "4A9",
+  "Groups": [],
+  "SharingCompanies": [
+    {
+      "CompanyId": "ffffdeadbeef00",
+      "CompanyName": "something.com:person",
+      "CompanyDefault": {
+        "UserShareMax": 99999,
+        "UserCrtShare": 0,
+        "CrtPrivateShare": 1,
+        "PrivateShareName": "%INIT - Home folder",
+        "PrivateShareMax": 2,
+        "PublicLinkExpireDefault": 0,
+        "EnforceDefault": false,
+        "HardLimitPrivateShare": false,
+        "AllowOffice365": false,
+        "KeepDeletedFilesDays": 60
+      },
+      "AssociationType": 2,
+      "StorageLimitReached": false,
+      "DomainToken": null,
+      "UserDefault": {
+        "UserShareMax": 99999,
+        "UserCrtShare": 0,
+        "CrtPrivateShare": 1,
+        "PrivateShareMax": 99999
+      }
+    }
+  ],
+  "FilecacheUrls": [
+    "filecache01.rushfiles.com"
+  ],
+  "AllSharingCompanies": [
+    {
+      "CompanyId": "ffffdeadbeef00",
+      "CompanyName": "something.com:person",
+      "CompanyDefault": {
+        "UserShareMax": 99999,
+        "UserCrtShare": 0,
+        "CrtPrivateShare": 1,
+        "PrivateShareName": "%INIT - Home folder",
+        "PrivateShareMax": 2,
+        "PublicLinkExpireDefault": 0,
+        "EnforceDefault": false,
+        "HardLimitPrivateShare": false,
+        "AllowOffice365": false,
+        "KeepDeletedFilesDays": 60
+      },
+      "AssociationType": 2,
+      "StorageLimitReached": false,
+      "DomainToken": null,
+      "UserDefault": {
+        "UserShareMax": 99999,
+        "UserCrtShare": 0,
+        "CrtPrivateShare": 1,
+        "PrivateShareMax": 99999
+      }
+    }
+  ]
+}

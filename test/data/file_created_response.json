@@ -1,0 +1,48 @@
+{
+  "Data": {
+    "ClientJournalEvent": {
+      "TransmitId": "rushieguid_1507032727318",
+      "UserOrigin": "person@place.com",
+      "ClientJournalEventType": 0,
+      "ShareTick": 2,
+      "TransmitCounter": 0,
+      "TransmitTimeout": "2017-10-03T12:12:07.1973433Z",
+      "RfVirtualFile": {
+        "ShareId": "czzz462f8b1a662f299e257a",
+        "SubShareIds": [],
+        "UploadName": "de72d8yyyy92be62ee7d64",
+        "InternalName": "test_internal_name",
+        "Tick": 1,
+        "ShareTick": 2,
+        "UpdateTick": 2,
+        "CreateTick": 2,
+        "ParrentId": "c8b3332ezzzz662f299e257a",
+        "NoOfChildren": 0,
+        "EndOfFile": 13,
+        "AllocationSize": 0,
+        "CreationTime": "2017-10-03T12:12:07.320642Z",
+        "LastAccessTime": "2017-10-03T12:12:07.320642Z",
+        "LastWriteTime": "2017-10-03T12:12:07.320642Z",
+        "Attributes": 32,
+        "Local": false,
+        "User": "person@place.com",
+        "Deleted": false,
+        "IsOffline": false,
+        "HasHistory": false,
+        "PublicName": "test_public_name",
+        "DeleteTimestamp": 0,
+        "IsFile": true,
+        "RetensionTimestamp": 0,
+        "InRetension": false,
+        "FileLock": {
+          "IsLocked": false,
+          "LockTime": 0
+        }
+      },
+      "CreateTick": 2,
+      "DeviceId": "test_device_id"
+    }
+  },
+  "Message": "File created succesfully.",
+  "Code": 1
+}

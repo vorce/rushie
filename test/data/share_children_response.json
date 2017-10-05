@@ -1,0 +1,74 @@
+{
+  "Data": [
+    {
+      "IsSubshare": false,
+      "UploadName": "54cde971333f45fd8ba1cb40154321f2",
+      "User": "person@place.com",
+      "IsFile": true,
+      "FileLock": {
+        "IsLocked": false,
+        "LockTime": 0
+      },
+      "InternalName": "85c30f31828d468ca5a27bb60102b66d",
+      "ShareId": "c8b3332ebdf0462f8b1a662f299e257a",
+      "Tick": 1,
+      "SubShareIds": [],
+      "ShareTick": 1,
+      "ParrentId": "c8b3332ebdf0462f8b1a662f299e257a",
+      "EndOfFile": 13678,
+      "PublicName": "keepassx2db.kdbx",
+      "CreationTime": "2017-09-30T07:14:37.4282306Z",
+      "LastAccessTime": "2017-09-30T07:14:37.4282306Z",
+      "LastWriteTime": "2017-09-30T07:14:37.4282306Z",
+      "Attributes": 32,
+      "Deleted": false
+    },
+    {
+      "IsSubshare": false,
+      "UploadName": "df8d4f6933ca4247a9e24cf2e78d67b5",
+      "User": "person@place.com",
+      "IsFile": true,
+      "FileLock": {
+        "IsLocked": false,
+        "LockTime": 0
+      },
+      "InternalName": "test_file.txt",
+      "ShareId": "c8b3332ebdf0462f8b1a662f299e257a",
+      "Tick": 1,
+      "SubShareIds": [],
+      "ShareTick": 3,
+      "ParrentId": "c8b3332ebdf0462f8b1a662f299e257a",
+      "EndOfFile": 13,
+      "PublicName": "test_file.txt",
+      "CreationTime": "2017-10-03T12:57:14.295242Z",
+      "LastAccessTime": "2017-10-03T12:57:14.295242Z",
+      "LastWriteTime": "2017-10-03T12:57:14.295242Z",
+      "Attributes": 32,
+      "Deleted": false
+    },
+    {
+      "IsSubshare": false,
+      "UploadName": "de72d8fedf674863931e92be62ee7d64",
+      "User": "person@place.com",
+      "IsFile": true,
+      "FileLock": {
+        "IsLocked": false,
+        "LockTime": 0
+      },
+      "InternalName": "test_internal_name",
+      "ShareId": "c8b3332ebdf0462f8b1a662f299e257a",
+      "Tick": 1,
+      "SubShareIds": [],
+      "ShareTick": 2,
+      "ParrentId": "c8b3332ebdf0462f8b1a662f299e257a",
+      "EndOfFile": 13,
+      "PublicName": "test_public_name",
+      "CreationTime": "2017-10-03T12:12:07.320642Z",
+      "LastAccessTime": "2017-10-03T12:12:07.320642Z",
+      "LastWriteTime": "2017-10-03T12:12:07.320642Z",
+      "Attributes": 32,
+      "Deleted": false
+    }
+  ],
+  "Message": "Ok."
+}
