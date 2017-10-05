@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/vorce/rushie.svg?branch=master)](https://travis-ci.org/vorce/rushie)
+[![Hex.pm](https://img.shields.io/hexpm/v/rushie.svg)](https://hex.pm/packages/rushie)
 
 # Rushie
 
