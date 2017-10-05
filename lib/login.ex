@@ -7,7 +7,7 @@ defmodule Rushie.Login do
             managed_shares: [],
             file_cache_urls: []
 
-  @login_url_prefix Application.get_env(:rushie, :login_url_prefix)
+  @login_url_prefix (Application.get_env(:rushie, :login_url_prefix) || "https://clientgateway.")
 
   def login(domain, email, password) do
     url = @login_url_prefix <> "#{domain}/Login2.aspx"
