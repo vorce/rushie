@@ -19,9 +19,9 @@ defmodule Rushie do
   end
 
   @spec upload_file(login :: Login.t, share :: ManagedShare.t, file_path :: String.t) :: {:ok, FileMeta.t} | {:error, any}
-  def upload_file(%Login{} = login, %ManagedShare{} = share, file_path) do
+  def upload_file(%Login{} = login, %ManagedShare{} = share, file_path, target_filename \\ nil) do
     with {:ok, data} <- File.read(file_path),
-         file_name <- Path.basename(file_path),
+         file_name <- target_filename || Path.basename(file_path),
          {:ok, :put, url} <- file_event(login, 0, share, {file_name, data}) do
       put_file(login, url, data)
     end
