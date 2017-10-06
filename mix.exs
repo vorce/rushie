@@ -10,6 +10,7 @@ defmodule Rushie.Mixfile do
       deps: deps(),
       description: description(),
       package: package(),
+      test_coverage: [tool: ExCoveralls],
     ]
   end
 
@@ -24,8 +25,11 @@ defmodule Rushie.Mixfile do
       {:httpoison, "~> 0.13"},
       {:poison, "~> 3.1"},
 
+      {:credo, "~> 0.8", only: :dev},
       {:ex_doc, ">= 0.0.0", only: :dev},
-      {:bypass, "~> 0.8", only: :test}
+
+      {:bypass, "~> 0.8", only: :test},
+      {:excoveralls, "~> 0.7", only: :test},
     ]
   end
 
