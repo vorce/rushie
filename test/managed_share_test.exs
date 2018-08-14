@@ -11,13 +11,13 @@ defmodule Rushie.ManagedShareTest do
       first_raw_share = List.first(raw_managed_shares)
 
       assert ManagedShare.parse_managed_share(first_raw_share) == %Rushie.ManagedShare{
-        full?: false,
-        id: "",
-        acl_token: "Z",
-        name: "backup",
-        owner: "person@place.com",
-        share_id: "cb6349efa"
-      }
+               full?: false,
+               id: "",
+               acl_token: "Z",
+               name: "backup",
+               owner: "person@place.com",
+               share_id: "cb6349efa"
+             }
     end
   end
 end

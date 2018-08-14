@@ -11,7 +11,7 @@ defmodule Rushie.Login do
             managed_shares: [],
             file_cache_urls: []
 
-  @login_url_prefix (Application.get_env(:rushie, :login_url_prefix) || "https://clientgateway.")
+  @login_url_prefix Application.get_env(:rushie, :login_url_prefix) || "https://clientgateway."
 
   @doc """
   Login to the specified domain with email, password.
@@ -19,6 +19,7 @@ defmodule Rushie.Login do
   """
   def login(domain, email, password) do
     url = @login_url_prefix <> "#{domain}/Login2.aspx"
+
     headers = [
       useremail: email,
       password2: Base.encode64(password),
@@ -26,13 +27,16 @@ defmodule Rushie.Login do
       devicename: "rushie",
       devicetype: "WebClient",
       deviceos: "",
-      ip: "127.0.0.1" # TODO replace w real one?
+      # TODO replace w real one?
+      ip: "127.0.0.1"
     ]
 
     case HTTPoison.get(url, headers, Rushie.httpoison_options()) do
       {:ok, %HTTPoison.Response{body: body, status_code: 200}} ->
         parse_login(body)
-      other -> {:error, {__MODULE__, :login, other}}
+
+      other ->
+        {:error, {__MODULE__, :login, other}}
     end
   end
 
@@ -42,20 +46,24 @@ defmodule Rushie.Login do
   """
   def gateway_login(%__MODULE__{} = login) do
     url = @login_url_prefix <> "#{login.domain}/ClientLogin.aspx?userEmail=#{login.email}&token=#{login.token}"
+
     case HTTPoison.get(url, [], Rushie.httpoison_options()) do
       {:ok, %HTTPoison.Response{body: body, status_code: 200}} ->
         parse_gateway_login(login, body)
-      other -> {:error, {__MODULE__, :gateway_login, other}}
+
+      other ->
+        {:error, {__MODULE__, :gateway_login, other}}
     end
   end
 
   def parse_login(body) do
     with {:ok, parsed} <- Jason.decode(body) do
-      {:ok, %__MODULE__{
-        domain: get_in(parsed, ["PrimaryUserDomain", "Domain", "Url"]),
-        token: get_in(parsed, ["PrimaryUserDomain", "UserDomainToken"]),
-        email: get_in(parsed, ["User", "Email"])}
-      }
+      {:ok,
+       %__MODULE__{
+         domain: get_in(parsed, ["PrimaryUserDomain", "Domain", "Url"]),
+         token: get_in(parsed, ["PrimaryUserDomain", "UserDomainToken"]),
+         email: get_in(parsed, ["User", "Email"])
+       }}
     end
   end
 
@@ -63,10 +71,7 @@ defmodule Rushie.Login do
     with {:ok, parsed} <- Jason.decode(body) do
       shares = Enum.map(parsed["ManagedShares"] || [], &ManagedShare.parse_managed_share/1)
       file_cache_urls = get_in(parsed, ["FilecacheUrls"]) || []
-      {:ok, %__MODULE__{login |
-        managed_shares: shares,
-        file_cache_urls: file_cache_urls
-      }}
+      {:ok, %__MODULE__{login | managed_shares: shares, file_cache_urls: file_cache_urls}}
     end
   end
 end

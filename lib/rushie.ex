@@ -11,7 +11,7 @@ defmodule Rushie do
   Login to Rushfiles. You need to login before you can actually do anything
   with Rushie. Most other Rushie functions need a login struct as first argument.
   """
-  @spec login(domain :: String.t, email :: String.t, password :: String.t) :: {:ok, Login.t} | {:error, any}
+  @spec login(domain :: String.t(), email :: String.t(), password :: String.t()) :: {:ok, Login.t()} | {:error, any}
   def login(domain, email, password) do
     with {:ok, login} <- Login.login(domain, email, password) do
       Login.gateway_login(login)
@@ -21,7 +21,8 @@ defmodule Rushie do
   @doc """
   Upload a file to a Rushfiles share
   """
-  @spec upload_file(login :: Login.t, share :: ManagedShare.t, file_path :: String.t) :: {:ok, FileMeta.t} | {:error, any}
+  @spec upload_file(login :: Login.t(), share :: ManagedShare.t(), file_path :: String.t()) ::
+          {:ok, FileMeta.t()} | {:error, any}
   def upload_file(%Login{} = login, %ManagedShare{} = share, file_path, target_filename \\ nil) do
     with {:ok, data} <- File.read(file_path),
          file_name <- target_filename || Path.basename(file_path),
@@ -33,14 +34,15 @@ defmodule Rushie do
   @doc """
   List all files in a Rushfiles share
   """
-  @spec list_files(login :: Login.t, share :: ManagedShare.t) :: {:ok, [FileMeta.t]} | {:error, any}
+  @spec list_files(login :: Login.t(), share :: ManagedShare.t()) :: {:ok, [FileMeta.t()]} | {:error, any}
   def list_files(%Login{} = login, %ManagedShare{} = share) do
     url = "https://clientgateway.#{login.domain}/api/shares/#{share.share_id}/children"
-    headers = ["Authorization": "DomainToken #{login.token}"]
+    headers = [Authorization: "DomainToken #{login.token}"]
 
     case HTTPoison.get(url, headers, httpoison_options()) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         parse_list_response(body)
+
       other ->
         {:error, {__MODULE__, :list_files, other}}
     end
@@ -50,16 +52,19 @@ defmodule Rushie do
   Download a specific file from a Rushfile share.
   `local_file` is the full path to write the file locally.
   """
-  @spec download_file(login :: Login.t, share :: ManagedShare.t, file :: FileMeta.t, local_file :: String.t) :: :ok | {:error, any}
+  @spec download_file(login :: Login.t(), share :: ManagedShare.t(), file :: FileMeta.t(), local_file :: String.t()) ::
+          :ok | {:error, any}
   def download_file(%Login{} = login, %ManagedShare{} = share, %FileMeta{} = file, local_file) do
     file_cache_url = List.first(login.file_cache_urls)
-    headers = ["Authorization": "DomainToken #{login.token}"]
+    headers = [Authorization: "DomainToken #{login.token}"]
     url = "https://#{file_cache_url}/api/shares/#{share.share_id}/files/#{file.upload_name}"
 
     case HTTPoison.get(url, headers, httpoison_options()) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         File.write(local_file, body)
-      other -> {:error, {__MODULE__, :get_file, other}}
+
+      other ->
+        {:error, {__MODULE__, :get_file, other}}
     end
   end
 
@@ -70,38 +75,43 @@ defmodule Rushie do
   """
   def file_event(%Login{} = login, event_type, %ManagedShare{} = share, file_data) do
     file_cache_url = List.first(login.file_cache_urls)
-    headers = ["Content-type": "application/json", "Authorization": "DomainToken #{login.token}"]
+    headers = ["Content-type": "application/json", Authorization: "DomainToken #{login.token}"]
     utc_now = DateTime.to_unix(DateTime.utc_now(), :milliseconds)
     url = "https://#{file_cache_url}/api/shares/#{share.share_id}/files"
 
     body = %{
-     "TransmitId" => "rushieguid_" <> to_string(utc_now),
-     # "UserOrigin" => login.email,
-     "ClientJournalEventType" => event_type,
-     # "TransmitDate" => utc_now,
-     "RfVirtualFile" => rf_virtual_file(share, file_data),
-     # "ShareToken" => share.acl_token,
-     "DeviceId" => "test_device_id"
-   }
+      "TransmitId" => "rushieguid_" <> to_string(utc_now),
+      # "UserOrigin" => login.email,
+      "ClientJournalEventType" => event_type,
+      # "TransmitDate" => utc_now,
+      "RfVirtualFile" => rf_virtual_file(share, file_data),
+      # "ShareToken" => share.acl_token,
+      "DeviceId" => "test_device_id"
+    }
 
     case HTTPoison.post(url, Jason.encode!(body), headers, httpoison_options()) do
       {:ok, %HTTPoison.Response{status_code: 202, body: body}} ->
         parse_file_event(body)
-      other -> {:error, {__MODULE__, :file_event, other}}
+
+      other ->
+        {:error, {__MODULE__, :file_event, other}}
     end
   end
 
   def put_file(%Login{} = login, url, data) do
     data_size = byte_size(data)
+
     headers = [
-      "Authorization": "DomainToken #{login.token}",
+      Authorization: "DomainToken #{login.token}",
       "Content-Range": "bytes 0-#{data_size - 1}/#{data_size}"
     ]
 
     case HTTPoison.put(url, data, headers, httpoison_options()) do
       {:ok, %HTTPoison.Response{status_code: 201, body: body}} ->
         parse_put_file(body)
-      other -> {:error, {__MODULE__, :put_file, other}}
+
+      other ->
+        {:error, {__MODULE__, :put_file, other}}
     end
   end
 
@@ -114,20 +124,24 @@ defmodule Rushie do
   def parse_put_file(body) do
     with {:ok, value} <- Jason.decode(body),
          1 <- get_in(value, ["Code"]) do
-      meta = value
-      |> get_in(["Data", "ClientJournalEvent", "RfVirtualFile"])
-      |> FileMeta.parse_file_meta()
+      meta =
+        value
+        |> get_in(["Data", "ClientJournalEvent", "RfVirtualFile"])
+        |> FileMeta.parse_file_meta()
 
       {:ok, meta}
     else
       value when is_number(value) ->
         {:error, {__MODULE__, :parse_put_response, "Unexpected Code: #{value}"}}
-      other -> other
+
+      other ->
+        other
     end
   end
 
   defp rf_virtual_file(%ManagedShare{} = share, {file_name, file_data}) do
     now = DateTime.utc_now()
+
     %{
       "InternalName" => file_name,
       # "Tick" => 1,
