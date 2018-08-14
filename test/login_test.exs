@@ -4,7 +4,7 @@ defmodule Rushie.LoginTest do
   alias Rushie.Login
 
   setup do
-    bypass = Bypass.open
+    bypass = Bypass.open()
     {:ok, bypass: bypass}
   end
 
@@ -15,15 +15,16 @@ defmodule Rushie.LoginTest do
       Bypass.expect_once(bypass, "GET", "/Login2.aspx", fn conn ->
         Plug.Conn.resp(conn, 200, @login_success_response)
       end)
+
       login_response = Jason.decode!(@login_success_response)
+
       expected_return = %Rushie.Login{
         domain: get_in(login_response, ["PrimaryUserDomain", "Domain", "Url"]),
         email: get_in(login_response, ["User", "Email"]),
         token: get_in(login_response, ["PrimaryUserDomain", "UserDomainToken"])
       }
 
-      assert Login.login("localhost:#{bypass.port}", "anyemail", "anypwd") ==
-        {:ok, expected_return}
+      assert Login.login("localhost:#{bypass.port}", "anyemail", "anypwd") == {:ok, expected_return}
     end
 
     test "returns error tuple on failure", %{bypass: bypass} do
@@ -31,8 +32,10 @@ defmodule Rushie.LoginTest do
         Plug.Conn.resp(conn, 500, ~s<{"errors": [{"code": 42, "message": "made up"}]}>)
       end)
 
-      assert match?({:error, {Rushie.Login, :login, _}},
-        Login.login("localhost:#{bypass.port}", "anyemail", "anypwd"))
+      assert match?(
+               {:error, {Rushie.Login, :login, _}},
+               Login.login("localhost:#{bypass.port}", "anyemail", "anypwd")
+             )
     end
   end
 
@@ -45,9 +48,11 @@ defmodule Rushie.LoginTest do
         email: "me@here.com",
         token: "token"
       }
+
       Bypass.expect_once(bypass, "GET", "/ClientLogin.aspx", fn conn ->
         Plug.Conn.resp(conn, 200, @gateway_login_success_response)
       end)
+
       response = Jason.decode!(@gateway_login_success_response)
 
       {code, login_result} = Login.gateway_login(login)
@@ -63,12 +68,15 @@ defmodule Rushie.LoginTest do
         email: "me@here.com",
         token: "token"
       }
+
       Bypass.expect_once(bypass, "GET", "/ClientLogin.aspx", fn conn ->
         Plug.Conn.resp(conn, 500, "Fail")
       end)
 
-      assert match?({:error, {Rushie.Login, :gateway_login, _}},
-        Login.gateway_login(login))
+      assert match?(
+               {:error, {Rushie.Login, :gateway_login, _}},
+               Login.gateway_login(login)
+             )
     end
   end
 end

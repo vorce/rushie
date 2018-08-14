@@ -6,11 +6,11 @@ defmodule Rushie.Mixfile do
       app: :rushie,
       version: "0.1.1",
       elixir: "~> 1.5",
-      start_permanent: Mix.env == :prod,
+      start_permanent: Mix.env() == :prod,
       deps: deps(),
       description: description(),
       package: package(),
-      test_coverage: [tool: ExCoveralls],
+      test_coverage: [tool: ExCoveralls]
     ]
   end
 
@@ -24,12 +24,10 @@ defmodule Rushie.Mixfile do
     [
       {:httpoison, "~> 1.0"},
       {:jason, "~> 1.1"},
-
       {:credo, "~> 0.10", only: :dev},
       {:ex_doc, ">= 0.0.0", only: :dev},
-
       {:bypass, "~> 0.8", only: :test},
-      {:excoveralls, "~> 0.7", only: :test},
+      {:excoveralls, "~> 0.7", only: :test}
     ]
   end
 
