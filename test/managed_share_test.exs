@@ -7,7 +7,7 @@ defmodule Rushie.ManagedShareTest do
 
   describe "parse_managed_share/1" do
     test "returns a ManagedShare struct" do
-      raw_managed_shares = Poison.decode!(@gateway_response)["ManagedShares"]
+      raw_managed_shares = Jason.decode!(@gateway_response)["ManagedShares"]
       first_raw_share = List.first(raw_managed_shares)
 
       assert ManagedShare.parse_managed_share(first_raw_share) == %Rushie.ManagedShare{

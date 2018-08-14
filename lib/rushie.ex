@@ -84,7 +84,7 @@ defmodule Rushie do
      "DeviceId" => "test_device_id"
    }
 
-    case HTTPoison.post(url, Poison.encode!(body), headers, httpoison_options()) do
+    case HTTPoison.post(url, Jason.encode!(body), headers, httpoison_options()) do
       {:ok, %HTTPoison.Response{status_code: 202, body: body}} ->
         parse_file_event(body)
       other -> {:error, {__MODULE__, :file_event, other}}
@@ -106,13 +106,13 @@ defmodule Rushie do
   end
 
   def parse_file_event(body) do
-    with {:ok, value} <- Poison.decode(body) do
+    with {:ok, value} <- Jason.decode(body) do
       {:ok, :put, get_in(value, ["Data", "Url"])}
     end
   end
 
   def parse_put_file(body) do
-    with {:ok, value} <- Poison.decode(body),
+    with {:ok, value} <- Jason.decode(body),
          1 <- get_in(value, ["Code"]) do
       meta = value
       |> get_in(["Data", "ClientJournalEvent", "RfVirtualFile"])
@@ -146,7 +146,7 @@ defmodule Rushie do
   end
 
   def parse_list_response(body) do
-    with {:ok, value} <- Poison.decode(body) do
+    with {:ok, value} <- Jason.decode(body) do
       metas = Enum.map(get_in(value, ["Data"]) || [], &FileMeta.parse_file_meta/1)
       {:ok, metas}
     end
