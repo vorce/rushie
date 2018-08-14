@@ -20,13 +20,13 @@ defmodule Rushie.Login do
   def login(domain, email, password) do
     url = @login_url_prefix <> "#{domain}/Login2.aspx"
     headers = [
-      "useremail": email,
-      "password2": Base.encode64(password),
-      "deviceid": "",
-      "devicename": "rushie",
-      "devicetype": "WebClient",
-      "deviceos": "",
-      "ip": "127.0.0.1" # TODO replace w real one?
+      useremail: email,
+      password2: Base.encode64(password),
+      deviceid: "",
+      devicename: "rushie",
+      devicetype: "WebClient",
+      deviceos: "",
+      ip: "127.0.0.1" # TODO replace w real one?
     ]
 
     case HTTPoison.get(url, headers, Rushie.httpoison_options()) do
@@ -50,7 +50,7 @@ defmodule Rushie.Login do
   end
 
   def parse_login(body) do
-    with {:ok, parsed} <- Poison.decode(body) do
+    with {:ok, parsed} <- Jason.decode(body) do
       {:ok, %__MODULE__{
         domain: get_in(parsed, ["PrimaryUserDomain", "Domain", "Url"]),
         token: get_in(parsed, ["PrimaryUserDomain", "UserDomainToken"]),
@@ -60,7 +60,7 @@ defmodule Rushie.Login do
   end
 
   def parse_gateway_login(login, body) do
-    with {:ok, parsed} <- Poison.decode(body) do
+    with {:ok, parsed} <- Jason.decode(body) do
       shares = Enum.map(parsed["ManagedShares"] || [], &ManagedShare.parse_managed_share/1)
       file_cache_urls = get_in(parsed, ["FilecacheUrls"]) || []
       {:ok, %__MODULE__{login |

@@ -7,7 +7,7 @@ defmodule Rushie.FileMetaTest do
 
   describe "parse_file_meta/1" do
     test "returns FileMeta struct on list response" do
-      list_raw = Poison.decode!(@list_response)["Data"]
+      list_raw = Jason.decode!(@list_response)["Data"]
       first_element = List.first(list_raw)
 
       assert FileMeta.parse_file_meta(first_element) == %Rushie.FileMeta{
@@ -35,7 +35,7 @@ defmodule Rushie.FileMetaTest do
 
     test "returns FileMeta struct on file created response" do
       struct = @file_created_response
-      |> Poison.decode!()
+      |> Jason.decode!()
       |> get_in(["Data", "ClientJournalEvent", "RfVirtualFile"])
       |> FileMeta.parse_file_meta()
 

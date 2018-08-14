@@ -15,7 +15,7 @@ defmodule Rushie.LoginTest do
       Bypass.expect_once(bypass, "GET", "/Login2.aspx", fn conn ->
         Plug.Conn.resp(conn, 200, @login_success_response)
       end)
-      login_response = Poison.decode!(@login_success_response)
+      login_response = Jason.decode!(@login_success_response)
       expected_return = %Rushie.Login{
         domain: get_in(login_response, ["PrimaryUserDomain", "Domain", "Url"]),
         email: get_in(login_response, ["User", "Email"]),
@@ -48,7 +48,7 @@ defmodule Rushie.LoginTest do
       Bypass.expect_once(bypass, "GET", "/ClientLogin.aspx", fn conn ->
         Plug.Conn.resp(conn, 200, @gateway_login_success_response)
       end)
-      response = Poison.decode!(@gateway_login_success_response)
+      response = Jason.decode!(@gateway_login_success_response)
 
       {code, login_result} = Login.gateway_login(login)
 
