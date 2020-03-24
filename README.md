@@ -1,6 +1,8 @@
 [![Build Status](https://travis-ci.org/vorce/rushie.svg?branch=master)](https://travis-ci.org/vorce/rushie)
 [![Hex.pm](https://img.shields.io/hexpm/v/rushie.svg)](https://hex.pm/packages/rushie)
 
+**Note:** I am not using Rushfiles anymore, which means that I am also not using Rushie for anything myself. So there will likely not be any active development of this library.
+
 # Rushie
 
 Rushie is an elixir library to make it easy to interact with the [Rushfiles API](https://rushfiles.com/).
